@@ -1,5 +1,5 @@
 import Header from './Header'
-import {useState,useEffect} from 'react'
+import {useState} from 'react'
 
 function App() {
   const[show,setShow]=useState(false)
