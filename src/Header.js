@@ -1,20 +1,37 @@
-import {useState,useLayoutEffect} from 'react'
+import {useState,useRef,useEffect} from 'react'
 
 function Header(){
-  const[count,setCount]=useState(0)
-  const handleIncrease=()=>{
-    setCount(prev=>prev+1)
+  const[count,setCount]=useState(60)
+  const timeID=useRef()
+  const prevCount= useRef()
+  const h1Ref=useRef()
+
+
+  const handleStart = () => {
+    timeID.current = setInterval(()=>{
+      setCount(prev => prev - 1)
+    },1000)
   }
-  useLayoutEffect(()=>{
-    if( count>3)
-    {
-      setCount(0)
-    }
+  const handleStop=()=>{
+    clearInterval(timeID.current)
+    console.log('stop',timeID.current)
+  }
+
+
+  useEffect(()=>{
+      prevCount.current=count
   },[count])
+  console.log(count,prevCount.current)
+  
+  useEffect(()=>{
+    const rect=h1Ref.current.getBoundingClientRect()
+    console.log(rect)
+  })
   return(
   <div>
-    <h1>{count}</h1>
-    <button onClick={handleIncrease}>Increase</button>
+    <h1 ref={h1Ref}>{count}</h1>
+    <button onClick={handleStart} >Start</button>
+    <button onClick={handleStop} >Stop</button>
   </div>
   )
 }
