@@ -1,44 +1,20 @@
-import {useState,useEffect} from 'react'
-const  lessons=[
-  {
-    id:1,
-    name:' Khóa học ReactJS'
-  },
-  {
-    id:2,
-    name:'Khóa học JavaScript'
-  },
-  {
-    id:3,
-    name:'Khóa học Python'
-  }
-]
+import {useState,useLayoutEffect} from 'react'
+
 function Header(){
-  const[lessonId,setLessonId]=useState(1)
-  useEffect(()=>{
-    const handleComment=({detail})=>{
-      console.log(detail)
+  const[count,setCount]=useState(0)
+  const handleIncrease=()=>{
+    setCount(prev=>prev+1)
+  }
+  useLayoutEffect(()=>{
+    if( count>3)
+    {
+      setCount(0)
     }
-    window.addEventListener(`lesson-${lessonId}`,handleComment)
-    return ()=>{
-      window.removeEventListener(`lesson-${lessonId}`,handleComment)
-    }
-  },[lessonId])
+  },[count])
   return(
   <div>
-    <ul>
-    {lessons.map(lesson=>(
-      <li 
-      key={lesson.id}
-      style={{
-        color:lessonId===lesson.id ? 'red':'#333'
-      }}
-      onClick={()=>setLessonId(lesson.id)}
-      >
-        {lesson.name}
-      </li>
-    ))}
-    </ul>
+    <h1>{count}</h1>
+    <button onClick={handleIncrease}>Increase</button>
   </div>
   )
 }
