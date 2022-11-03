@@ -1,37 +1,23 @@
-import {useState,useRef,useEffect} from 'react'
+import {useState,memo} from 'react'
+import Navbar from './Navbar'
 
 function Header(){
-  const[count,setCount]=useState(60)
-  const timeID=useRef()
-  const prevCount= useRef()
-  const h1Ref=useRef()
+  const [count,setCount]=useState(0)
+  const [count2,setCount2]=useState(0)
 
-
-  const handleStart = () => {
-    timeID.current = setInterval(()=>{
-      setCount(prev => prev - 1)
-    },1000)
+  const handleClick=()=>{
+    setCount(count+1)
   }
-  const handleStop=()=>{
-    clearInterval(timeID.current)
-    console.log('stop',timeID.current)
+  const handleClick2=()=>{
+    setCount2(count2+1)
   }
-
-
-  useEffect(()=>{
-      prevCount.current=count
-  },[count])
-  console.log(count,prevCount.current)
-  
-  useEffect(()=>{
-    const rect=h1Ref.current.getBoundingClientRect()
-    console.log(rect)
-  })
   return(
   <div>
-    <h1 ref={h1Ref}>{count}</h1>
-    <button onClick={handleStart} >Start</button>
-    <button onClick={handleStop} >Stop</button>
+    <Navbar count={count}/>
+    <h1>{count}</h1>
+    <h1>{count2}</h1>
+    <button onClick={handleClick}>Click1</button>
+    <button onClick={handleClick2}>Click2</button>
   </div>
   )
 }
